@@ -4,31 +4,29 @@ import matplotlib.pyplot as plt
 
 # Load the image
 image = cv2.imread('path_to_your_image.jpg')
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
+image_mat = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
 
-# Function to translate the image
-def translate(image, tx, ty):
-    rows, cols, _ = image.shape
-    M = np.float32([[1, 0, tx], [0, 1, ty]])
-    translated_image = cv2.warpAffine(image, M, (cols, rows))
-    return translated_image
+width, height, c = image_mat.shape
 
-# Function to rotate the image
-def rotate(image, angle):
-    rows, cols, _ = image.shape
-    M = cv2.getRotationMatrix2D((cols/2, rows/2), angle, 1)
-    rotated_image = cv2.warpAffine(image, M, (cols, rows))
-    return rotated_image
+center = (width/2, height/2)
 
-# Function to scale the image
-def scale(image, fx, fy):
-    scaled_image = cv2.resize(image, None, fx=fx, fy=fy, interpolation=cv2.INTER_LINEAR)
-    return scaled_image
 
-# Translate, rotate, and scale the image
-translated_image = translate(image, 50, 50)
-rotated_image = rotate(image, 45)
-scaled_image = scale(image, 0.5, 0.5)
+translate = np.float32([
+    [1,0,50],
+    [0,1,50]
+])
+
+scale = np.float32([
+    [2,0,0],
+    [0,2,0]
+])
+
+rotate = cv2.getRotatedMatrix2D(center,30,1)
+
+translated_image = cv2.warpAffine(image_mat, translate, (width+50, height+50))
+scaled_image = cv2.warpAffine(image_mat, scale, (width*2,height*2))
+rotated_image = cv2.warpAffine(image_mat, rotate, (width, height))
+
 
 # Plotting the images
 fig, axes = plt.subplots(1, 4, figsize=(20, 5))

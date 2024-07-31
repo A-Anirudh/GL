@@ -14,9 +14,9 @@ titles = ["top left","top right","bottom left","bottom right"]
 
 fig, axs = plt.subplot(2,2,figsize=(10,10))
 
-r = 0
 for i in range(2):
-  for j in range(2):
-    axs[i,j] = imshow(images[row+i+j])
-    axs[i,j].set_title(titles[row+i+j])
-    axs[i,j].show("off")
+    for j in range(2):
+        axs[i, j].imshow(images[i*2 + j])
+        axs[i, j].set_title(titles[i*2 + j])
+        axs[i, j].axis("off")
+plt.show()

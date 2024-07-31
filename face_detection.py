@@ -19,9 +19,9 @@ for (x, y, w, h) in faces:
 # Display each cropped face separately
 plt.figure(figsize=(12, 6))
 for i, face in enumerate(cropped_faces):
-plt.subplot(1, len(cropped_faces), i + 1)
-plt.imshow(cv2.cvtColor(face, cv2.COLOR_BGR2RGB))
-plt.axis('off')
-plt.title(f'Face {i + 1}')
+  plt.subplot(1, len(cropped_faces), i + 1)
+  plt.imshow(cv2.cvtColor(face, cv2.COLOR_BGR2RGB))
+  plt.axis('off')
+  plt.title(f'Face {i + 1}')
 plt.tight_layout()
 plt.show()

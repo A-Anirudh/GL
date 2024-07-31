@@ -32,8 +32,10 @@ for i in range(4):
   axs[i].set_title(titles[i])
 
 plt.show()
-sobel_x = cv2.Sobel(gray_image, cv2.CV_64F,1,ksize=5)
-texture = 2*sobel_x
+sobel_x = cv2.Sobel(gray_image, cv2.CV_64F,1,0,ksize=5)
+sobel_y= cv2.Sobel(gray_image, cv2.CV_64F,0,1,ksize=5)
+
+texture = sobel_x + sobel_y
 
 newTitle = ["Original", "Edge Detection", "Texture"]
 newArr = [image_mat, edges, texture]

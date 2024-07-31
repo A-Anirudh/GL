@@ -17,16 +17,16 @@ cv2.drawContours(image, contours, -1, (0, 255, 0), 3)
 cropped_images = []
 # Iterate through contours
 for i, contour in enumerate(contours):
-# Create a mask image for each contour
-mask = np.zeros_like(gray)
-cv2.drawContours(mask, [contour], 0, 255, -1)
-# Extract the object using the mask
-object_extracted = np.zeros_like(image)
-object_extracted[mask == 255] = image[mask == 255]
-# Convert BGR to RGB for displaying with Matplotlib
-object_extracted_rgb = cv2.cvtColor(object_extracted, cv2.COLOR_BGR2RGB)
-# Append the extracted object to the list
-cropped_images.append(object_extracted_rgb)
+  # Create a mask image for each contour
+  mask = np.zeros_like(gray)
+  cv2.drawContours(mask, [contour], 0, 255, -1)
+  # Extract the object using the mask
+  object_extracted = np.zeros_like(image)
+  object_extracted[mask == 255] = image[mask == 255]
+  # Convert BGR to RGB for displaying with Matplotlib
+  object_extracted_rgb = cv2.cvtColor(object_extracted, cv2.COLOR_BGR2RGB)
+  # Append the extracted object to the list
+  cropped_images.append(object_extracted_rgb)
 fig, axs = plt.subplots(1, len(cropped_images)+2, figsize=(12, 4))
 # Plot the original image
 axs[0].imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))

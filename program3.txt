@@ -1,21 +1,23 @@
-#include <stdio.h>
 #include <GL/glut.h>
 
-int op;
+// Define a point type
 typedef float point[3];
+
+// Initialize the points of the tetrahedron
 point a = {0.0, 0.0, 1.0};
 point b = {0.0, 1.0, 0.0};
 point c = {-1.0, -1.0, 0.0};
 point d = {1.0, -1.0, 0.0};
-void myInit()
-{
+
+// Initialize OpenGL settings
+void myInit() {
     glClearColor(1, 1, 1, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glOrtho(-2.0, 2.0, -2.0, 2.0, -2.0, 2.0);
 }
 
-void triangle(point a, point b, point c)
-{
+// Draw a triangle
+void drawTriangle(point a, point b, point c) {
     glBegin(GL_TRIANGLES);
     glVertex3fv(a);
     glVertex3fv(b);
@@ -23,57 +25,49 @@ void triangle(point a, point b, point c)
     glEnd();
 }
 
-void divtri(point x, point y, point z, int m)
-{
-    if (m == 0)
-    {
-        triangle(x, y, z);
+// Divide a triangle recursively
+void divideTriangle(point x, point y, point z, int m) {
+    if (m == 0) {
+        drawTriangle(x, y, z);
         return;
     }
-    else if (m > 0)
-    {
-        point v1, v2, v3;
-        for (int i = 0; i < 3; i++)
-        {
-            v1[i] = (x[i] + y[i]) / 2;
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            v2[i] = (x[i] + z[i]) / 2;
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            v3[i] = (z[i] + y[i]) / 2;
-        }
 
-        divtri(x, v1, v2, m - 1);
-        divtri(v1, y, v3, m - 1);
-        divtri(v3, v2, z, m - 1);
+    point v1, v2, v3;
+    for (int i = 0; i < 3; i++) {
+        v1[i] = (x[i] + y[i]) / 2;
+        v2[i] = (x[i] + z[i]) / 2;
+        v3[i] = (y[i] + z[i]) / 2;
     }
+
+    divideTriangle(x, v1, v2, m - 1);
+    divideTriangle(v1, y, v3, m - 1);
+    divideTriangle(v2, v3, z, m - 1);
 }
-void tetra(int g)
-{
+
+// Draw a tetrahedron by dividing its faces
+void drawTetrahedron(int m) {
     glColor3f(1, 0, 0);
-    divtri(a, b, c, g);
+    divideTriangle(a, b, c, m);
     glColor3f(0, 1, 0);
-    divtri(a, b, d, g);
+    divideTriangle(a, b, d, m);
     glColor3f(0, 0, 1);
-    divtri(a, c, d, g);
+    divideTriangle(a, c, d, m);
     glColor3f(0, 0, 0);
-    divtri(b, d, c, g);
+    divideTriangle(b, c, d, m);
 }
-void display()
-{
-    tetra(2);
+
+// Display callback function
+void display() {
+    drawTetrahedron(2);
     glFlush();
 }
 
-int main(int argc, char **argv)
-{
+// Main function
+int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);
-    glutCreateWindow("1CR21CS014");
+    glutCreateWindow("Tetrahedron");
     myInit();
     glutDisplayFunc(display);
     glEnable(GL_DEPTH_TEST);

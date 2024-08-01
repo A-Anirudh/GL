@@ -4,10 +4,18 @@ avgBlur = cv.blur(img_rgb,(5,5))
 gaussianBlur=cv.GaussianBlur(img_rgb,(5,5),0)
 medianBlur = cv.medianBlur(img_rgb, 5)
 bilateralFilter = cv.bilateralFilter(img_rgb, 9, 75, 75)
-images = [img_rgb, avgBlur, gaussianBlur, medianBlur, bilateralFilter]
-titles = ['Original', 'Average Blur', 'Gaussian Blur', 'Median Blur', 'Bilateral Filter']
-for i in range(5):
-    plt.subplot(2,3,i+1);plt.title(titles[i]);plt.imshow(images[i])
+boxFilter = cv.boxFilter(img_rgb, -1, (5, 5))  # Box Filter for smoothing
+images = [img_rgb, avgBlur, gaussianBlur, medianBlur, bilateralFilter, boxFilter]
+titles = ['Original', 'Average Blur', 'Gaussian Blur', 'Median Blur', 'Bilateral Filter', 'Box Filter']
+plt.figure(figsize=(12, 8))
+for i in range(len(images)):
+    plt.subplot(2, 3, i + 1)
+    plt.title(titles[i])
+    plt.imshow(images[i])
+    plt.axis('off')  # Hide axes
+
+plt.tight_layout()
+plt.show()
 
 
 #### Both above and below work

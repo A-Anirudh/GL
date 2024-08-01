@@ -1,3 +1,12 @@
+img = cv.imread('chessboard.png')
+img_gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+img_canny = cv.Canny(img_gray,threshold1=100,threshold2=200)
+contours,hierarchy = cv.findContours(img_canny,cv.RETR_TREE,cv.CHAIN_APPROX_SIMPLE)
+cv.drawContours(img,contours,-1,(0,255,0),3)
+plt.imshow(img)
+
+## ORrrrr both works
+
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt

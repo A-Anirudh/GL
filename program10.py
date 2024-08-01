@@ -1,3 +1,17 @@
+img = cv.imread('messi.jpeg')
+img_rgb = img[:,:,::-1]
+avgBlur = cv.blur(img_rgb,(5,5))
+gaussianBlur=cv.GaussianBlur(img_rgb,(5,5),0)
+medianBlur = cv.medianBlur(img_rgb, 5)
+bilateralFilter = cv.bilateralFilter(img_rgb, 9, 75, 75)
+images = [img_rgb, avgBlur, gaussianBlur, medianBlur, bilateralFilter]
+titles = ['Original', 'Average Blur', 'Gaussian Blur', 'Median Blur', 'Bilateral Filter']
+for i in range(5):
+    plt.subplot(2,3,i+1);plt.title(titles[i]);plt.imshow(images[i])
+
+
+#### Both above and below work
+
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt

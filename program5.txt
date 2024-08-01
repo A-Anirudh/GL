@@ -1,67 +1,73 @@
 #include <GL/glut.h>
 #include <stdio.h>
 
-float lightPos[] = {2, 2, 2};
-float ambient[] = {0, 1, 1, 1};
+// Light properties
+float lightPos[] = {2, 2, 2}; // Position of the light source
+float ambient[] = {0, 1, 1, 1}; // Ambient light color
 
-void align()
-{
-    glRotated(50, 0, 1, 0);
-    glRotated(10, -1, 0, 0);
-    glRotated(11, 0, 0, -1);
+// Apply rotations to align objects
+void align() {
+    glRotated(50, 0, 1, 0); // Rotate around Y-axis
+    glRotated(10, -1, 0, 0); // Rotate around X-axis
+    glRotated(11, 0, 0, -1); // Rotate around Z-axis
 }
 
-void myInit()
-{
-    glClearColor(0, 0, 0, 0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+// Initialize OpenGL settings
+void myInit() {
+    glClearColor(0, 0, 0, 0); // Set background color to black
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the color and depth buffers
 }
 
-void obj(float sx, float sy, float sz, float tx, float ty, float tz)
-{
-    align();
-    glTranslated(tx, ty, tz);
-    glScaled(sx, sy, sz);
-    glutSolidCube(1);
-    glLoadIdentity();
+// Draw a scaled and translated cube
+void obj(float sx, float sy, float sz, float tx, float ty, float tz) {
+    align(); // Apply rotations
+    glTranslated(tx, ty, tz); // Translate the object
+    glScaled(sx, sy, sz); // Scale the object
+    glutSolidCube(1); // Draw a solid cube with edge length of 1
+    glLoadIdentity(); // Reset the transformation matrix
 }
 
-void display()
-{
-    obj(0.02, 1, 1, -0.5, 0, 0);
-    obj(1, 1, 0.02, 0, 0, 0.5);
-    obj(1, 0.02, 1, 0, -0.5, 0);
+// Display callback function
+void display() {
+    // Draw the main objects
+    obj(0.02, 1, 1, -0.5, 0, 0); // Vertical rectangle
+    obj(1, 1, 0.02, 0, 0, 0.5); // Horizontal rectangle (in Z direction)
+    obj(1, 0.02, 1, 0, -0.5, 0); // Horizontal rectangle (in Y direction)
 
-    obj(0.02, 0.25, 0.02, 0, -0.4, 0);
+    // Draw additional objects
+    obj(0.02, 0.25, 0.02, 0, -0.4, 0); // Small vertical rectangles
     obj(0.02, 0.30, 0.02, 0, -0.39, -0.4);
     obj(0.02, 0.30, 0.02, 0.4, -0.39, -0.4);
     obj(0.02, 0.30, 0.02, 0.4, -0.39, 0);
 
+    // Draw a large horizontal rectangle
     obj(0.7, 0.02, 0.7, 0.4, -0.2, -0.4);
 
-    align();
-    glTranslated(0.4, -0.1, -0.4);
-    glutSolidTeapot(0.1);
+    // Draw a teapot
+    align(); // Apply rotations again
+    glTranslated(0.4, -0.1, -0.4); // Translate the teapot
+    glutSolidTeapot(0.1); // Draw a solid teapot with a size of 0.1
 
-    glFlush();
+    glFlush(); // Ensure all drawing commands are executed
 }
 
-int main(int argc, char **argv)
-{
-    glutInit(&argc, argv);
+// Main function
+int main(int argc, char **argv) {
+    glutInit(&argc, argv); // Initialize GLUT
 
+    // Set up display mode and window
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(600, 600);
     glutCreateWindow("1CR21CS015");
 
-    myInit();
-    glutDisplayFunc(display);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-    glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
-    glEnable(GL_DEPTH_TEST);
-    glutMainLoop();
+    myInit(); // Initialize settings
+    glutDisplayFunc(display); // Set the display callback function
+    glEnable(GL_LIGHTING); // Enable lighting
+    glEnable(GL_LIGHT0); // Enable light source 0
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPos); // Set light position
+    glMaterialfv(GL_FRONT, GL_AMBIENT, ambient); // Set ambient material properties
+    glEnable(GL_DEPTH_TEST); // Enable depth testing for correct rendering
+    glutMainLoop(); // Enter the GLUT main loop
 
     return 0;
 }

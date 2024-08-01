@@ -21,7 +21,6 @@ print("Number of Contours found = " + str(len(contours)))
 # Draw all contours on the original image
 cv2.drawContours(image, contours, -1, (0, 255, 0), 3)
 
-15
 # Create a list to store cropped images of each object
 cropped_images = []
 # Iterate through contours

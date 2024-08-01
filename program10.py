@@ -1,12 +1,9 @@
 img = cv.imread('messi.jpeg')
 img_rgb = img[:,:,::-1]
 avgBlur = cv.blur(img_rgb,(5,5))
-gaussianBlur=cv.GaussianBlur(img_rgb,(5,5),0)
-medianBlur = cv.medianBlur(img_rgb, 5)
-bilateralFilter = cv.bilateralFilter(img_rgb, 9, 75, 75)
 boxFilter = cv.boxFilter(img_rgb, -1, (5, 5))  # Box Filter for smoothing
 images = [img_rgb, avgBlur, gaussianBlur, medianBlur, bilateralFilter, boxFilter]
-titles = ['Original', 'Average Blur', 'Gaussian Blur', 'Median Blur', 'Bilateral Filter', 'Box Filter']
+titles = ['Original', 'Average Blur', 'Box Filter']
 plt.figure(figsize=(12, 8))
 for i in range(len(images)):
     plt.subplot(2, 3, i + 1)
